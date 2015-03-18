@@ -323,14 +323,18 @@ int eng_to_nep(struct eng_date date, struct nep_date *date_return)
  */
 int nep_to_eng(struct nep_date date, struct eng_date *date_return)
 {
+    /* This is a reference date in English year i.e. 1993-4-13 */
     int def_eyy = 1943;
     int def_emm = 4;
     int def_edd = 13;		//14-1
+    /* This is the Nepali equivalent i.e. 2000-1-1 */
     int def_nyy = 2000;
     //int def_nmm = 1; 
-    //int def_ndd = 1;              // equivalent nepali date.
+    //int def_ndd = 1;  
+    /* Total Days we have counted */            
     int total_eDays = 0;
     int total_nDays = 0;
+
     int a = 0;
     int day = 3;		//4-1
     int m = 0;
@@ -340,14 +344,15 @@ int nep_to_eng(struct nep_date date, struct eng_date *date_return)
     int numDay = 0;
     int j;
 
+    /* Number of days in months of normal English years */
     int month[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    /* Number of days in months of English Leap years */
     int lmonth[13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
     if (is_range_nep(date) == 0) {
-	return 0;
-
+	   return 0;
     }
-    // count total days in-terms of year
+    /* count total days in-terms of year */
     for (i = 0; i < (date.year - def_nyy); ++i) {
 	for (j = 1; j <= 12; ++j) {
 	    total_nDays += bs[k][j];
@@ -355,13 +360,14 @@ int nep_to_eng(struct nep_date date, struct eng_date *date_return)
 	++k;
     }
 
-    // count total days in-terms of month                   
+    /* count total days in-terms of month  */                 
     for (j = 1; j < date.month; ++j) {
-	total_nDays += bs[k][j];
+	   total_nDays += bs[k][j];
     }
-    // count total days in-terms of dat
+    /* count total days in-terms of date */
     total_nDays += date.date;
-    //calculation of equivalent english date...
+
+    /* calculation of equivalent english date... */
     total_eDays = def_edd;
     m = def_emm;
     y = def_eyy;
